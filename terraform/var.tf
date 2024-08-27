@@ -29,3 +29,7 @@ variable subnet {
 variable admin-password {
   default = "Password1234!"
 }
+
+variable acr-name {
+  default = "votingacr1298"
+}
