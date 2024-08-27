@@ -1,6 +1,7 @@
 # Declare variables
 variable "environment" {
-  default = "dev"
+  # default = "dev"
+  description = "Name of the environment | dev | qa | prod"
 }
 
 variable "prefix" {
@@ -30,6 +31,9 @@ variable admin-password {
   default = "Password1234!"
 }
 
-variable acr-name {
-  default = "votingacr1298"
+variable "acr_name" {
+  # default = "votingacr1298"
+  type = string
+  description = "Give the name of the Azure Container Registry"
+  nullable = false
 }

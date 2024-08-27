@@ -3,7 +3,7 @@
 CI  : docker build
 CD  : docker push
 
-aks : provision
+aks : provision | container attached 
 
 helm and argocd  install
 setup  argocd
