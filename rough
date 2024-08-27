@@ -1,0 +1,10 @@
+# jenkins setup 
+
+CI  : docker build
+CD  : docker push
+
+aks : provision
+
+helm and argocd  install
+setup  argocd
+
