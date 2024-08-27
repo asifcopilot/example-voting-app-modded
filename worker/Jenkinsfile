@@ -1,0 +1,60 @@
+
+pipeline {
+    agent any
+    environment {
+        IMG_TAG = ''
+        IMG_LAT = '' //for instantiation of build
+        IMG_REPO = 'votingacr1298.azurecr.io/worker'
+        DOCKERHUB_CRED = credentials('azure-acr-cred')
+        REPOSITORY_URI = "$GIT_URL"
+    }
+
+    stages {
+        stage('Logging into Docker-Hub') {
+            steps {
+                sh 'echo $DOCKERHUB_CRED_PSW | docker login ${DOCKERHUB_CRED_USR}.azurecr.io -u $DOCKERHUB_CRED_USR --password-stdin'
+            }
+        }
+
+        stage ('pre_build'){
+            steps {
+                echo 'stage---------------------------prebuild-------------------------'
+                echo "${env.REPOSITORY_URI}:${env.BUILD_NUMBER}"
+            }
+        }
+
+        stage ('build') {
+            steps {
+                echo 'stage---------------------------build-------------------------'
+
+                echo 'Building the Docker image...'
+                script {                   
+                    IMG_TAG = docker.build IMG_REPO + ":${env.BUILD_NUMBER}", "--no-cache  worker/."
+                    IMG_LAT = docker.build IMG_REPO + ":latest", " worker/."
+                }
+            }
+        }
+        stage('Deploy Image') {
+            steps{
+                echo 'stage---------------------------Deploy Image-------------------------'
+                script {
+                    docker.withRegistry('') {
+                        IMG_TAG.push()
+                        IMG_LAT.push()
+                    }
+                }
+            }
+        }
+
+        // stage('RELOAD_dev3') {
+        //     steps {
+        //         sh '''
+        //             REPO_NAME=$(cut -d "/" -f2- <<< "$IMG_REPO")
+        //             DEPL=$(kubectl get deployments -o wide -n dev3 | grep $REPO_NAME | awk '{print $1;}')
+        //             kubectl rollout restart deployment $DEPL -n dev3
+        //             kubectl get pods -n dev3
+        //         '''
+        //     }
+        // }
+        }
+} 
