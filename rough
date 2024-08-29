@@ -5,10 +5,15 @@ CD  : docker push
 
 aks : provision | container attached 
 
+## Installing argocd
+
+inti argocd adm password
 helm and argocd  install
 setup  argocd
+<!-- change  -->
+data:
+    timeout.reconciliation: 180s
 
----
 
 <!-- jenkins plugins  -->
 
@@ -18,3 +23,5 @@ docekr pipeline
 kubernates credentials
 kubernetes
 kubernetes cli
+
+## 

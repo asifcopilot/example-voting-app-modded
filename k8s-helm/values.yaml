@@ -3,9 +3,9 @@
 replicaCount: 1
 
 image:
-  repositoryVote: dockersamples/examplevotingapp_vote
-  repositoryResult: dockersamples/examplevotingapp_result
-  repositoryWorker: dockersamples/examplevotingapp_worker
+  repositoryVote: votingapp47.azurecr.io/vote
+  repositoryResult: votingapp47.azurecr.io/result
+  repositoryWorker: votingapp47.azurecr.io/worker
   repositoryRedis: redis:alpine
 
   pullPolicy: Always
