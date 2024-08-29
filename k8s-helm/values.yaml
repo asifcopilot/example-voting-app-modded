@@ -1,6 +1,6 @@
 # Default values for k8s-helm.
 
-replicaCount: 2
+replicaCount: 10
 
 image:
   repositoryVote: votingapp47.azurecr.io/vote

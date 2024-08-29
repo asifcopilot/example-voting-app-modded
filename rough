@@ -13,6 +13,7 @@ setup  argocd
 <!-- change  -->
 data:
     timeout.reconciliation: 180s
+<!--  Note: argocd-repo-server deployment must be manually restarted after changing the setting. -->
 
 
 <!-- jenkins plugins  -->
