@@ -8,3 +8,13 @@ aks : provision | container attached
 helm and argocd  install
 setup  argocd
 
+---
+
+<!-- jenkins plugins  -->
+
+pipeline : stage view
+docker
+docekr pipeline
+kubernates credentials
+kubernetes
+kubernetes cli
