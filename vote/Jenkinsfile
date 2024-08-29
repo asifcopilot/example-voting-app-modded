@@ -4,7 +4,7 @@ pipeline {
     environment {
         IMG_TAG = ''
         IMG_LAT = '' //for instantiation of build
-        IMG_REPO = 'votingacr1298.azurecr.io/vote'
+        IMG_REPO = 'votingapp47.azurecr.io/vote'
         DOCKERHUB_CRED = credentials('azure-acr-cred')
         REPOSITORY_URI = "$GIT_URL"
     }

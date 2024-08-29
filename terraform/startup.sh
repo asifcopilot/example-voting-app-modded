@@ -25,7 +25,9 @@ sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/u
 sudo apt-get update
 sudo apt-get install -y docker-ce
 sudo groupadd docker
-sudo usermod -aG docker $USER && sudo usermod -aG docker jenkins
+sudo usermod -aG docker $USER 
+sudo usermod -aG docker jenkins
+sudo systemctl restart jenkins
  #&& newgrp docker
 
 # Install kubectl
