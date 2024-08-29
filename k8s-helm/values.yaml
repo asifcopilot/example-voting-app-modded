@@ -31,8 +31,9 @@ db:
   postgresPassword: postgres
   repository: postgres:15-alpine
 
-imagePullSecrets: 
-  name: acr-cred 
+# imagePullSecrets: 
+#   name: acr-cred 
+
 nameOverride: ""
 fullnameOverride: ""
 
