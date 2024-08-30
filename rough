@@ -34,6 +34,3 @@ We  have acctached the acr to aks (beauty of using microsoft eco sysyem)
 
 
 #####
-
-sonarqube : sqa_5ad7e04eb8484b6f1c0ff14c0ee0ca8aa2e736db
-    webhook: 
