@@ -11,7 +11,7 @@ echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
   https://pkg.jenkins.io/debian-stable binary/" | sudo tee \
   /etc/apt/sources.list.d/jenkins.list > /dev/null
 sudo apt-get update
-sudo apt-get install -y openjdk-11-jdk jenkins
+sudo apt-get install -y openjdk-17-jdk openjdk-17-jre jenkins
 
 
 # Start Jenkins service
@@ -27,6 +27,8 @@ sudo apt-get install -y docker-ce
 sudo groupadd docker
 sudo usermod -aG docker $USER 
 sudo usermod -aG docker jenkins
+sudo systemctl restart docker
+sudo chmod 777 /var/run/docker.sock
 sudo systemctl restart jenkins
  #&& newgrp docker
 
@@ -37,12 +39,33 @@ sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 # Install Helm
 curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
-# Print installation versions
-echo "Jenkins version:"
-jenkins --version
-echo "Docker version:"
-docker --version
-echo "kubectl version:"
-kubectl version --client
-echo "Helm version:"
-helm version
+# Installing SonarQube
+
+# Run the PostgreSQL container
+sudo docker run -d \
+  --name db \
+  -e POSTGRES_USER=sonar \
+  -e POSTGRES_PASSWORD=sonar \
+  -v postgresql:/var/lib/postgresql \
+  -v postgresql_data:/var/lib/postgresql/data \
+  postgres:12
+
+#  Run the SonarQube container
+sudo docker run -d \
+  --name sonarqube \
+  -e SONAR_JDBC_URL=jdbc:postgresql://db:5432/sonar \
+  -e SONAR_JDBC_USERNAME=sonar \
+  -e SONAR_JDBC_PASSWORD=sonar \
+  -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true \
+  -v sonarqube_data:/opt/sonarqube/data \
+  -v sonarqube_extensions:/opt/sonarqube/extensions \
+  -v sonarqube_logs:/opt/sonarqube/logs \
+  -p 9000:9000 sonarqube:community
+
+# Installing Trivy
+#!/bin/bash
+sudo apt-get install wget apt-transport-https gnupg lsb-release -y
+wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+sudo apt update
+sudo apt install trivy -y

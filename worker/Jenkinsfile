@@ -29,8 +29,8 @@ pipeline {
 
                 echo 'Building the Docker image...'
                 script {                   
-                    IMG_TAG = docker.build IMG_REPO + ":${env.BUILD_NUMBER}", "--no-cache  worker/."
-                    IMG_LAT = docker.build IMG_REPO + ":latest", " worker/."
+                    IMG_TAG = docker.build "${DOCKERHUB_CRED_USR}.azurecr.io/worker" + ":${env.BUILD_NUMBER}", "--no-cache  worker/."
+                    IMG_LAT = docker.build "${DOCKERHUB_CRED_USR}.azurecr.io/worker" + ":latest", " worker/."
                 }
             }
         }
