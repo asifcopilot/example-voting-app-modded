@@ -46,15 +46,13 @@ pipeline {
             }
         }
 
-        // stage('RELOAD_dev3') {
-        //     steps {
-        //         sh '''
-        //             REPO_NAME=$(cut -d "/" -f2- <<< "$IMG_REPO")
-        //             DEPL=$(kubectl get deployments -o wide -n dev3 | grep $REPO_NAME | awk '{print $1;}')
-        //             kubectl rollout restart deployment $DEPL -n dev3
-        //             kubectl get pods -n dev3
-        //         '''
-        //     }
-        // }
+        stage('Trivy File Scan') {
+            steps {
+                dir('worker') {
+                    sh 'tricy fs . > trivyfs.txt'
+                }
+
+            }
+        }
         }
 } 
