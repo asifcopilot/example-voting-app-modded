@@ -1,32 +1,62 @@
-# Example Voting App
+# Modded Example Voting App
+This repository is a modified version of the [Votingapp](https://github.com/dockersamples/example-voting-app),a simple distributed application running across multiple Docker containers. The modifications include the addition of Helm charts, Jenkins files, and Terraform scripts to streamline infrastructure provisioning, deployment, and CI/CD processes.
 
-A simple distributed application running across multiple Docker containers.
+![Architecture diagram](voting-app-diagram.gif)
+## Overview
 
-## Getting started
+The Voting App is a sample application that demonstrates the deployment of a multi-container application using Docker. The application is composed of the following services:
 
-Download [Docker Desktop](https://www.docker.com/products/docker-desktop) for Mac or Windows. [Docker Compose](https://docs.docker.com/compose) will be automatically installed. On Linux, make sure you have the latest version of [Compose](https://docs.docker.com/compose/install/).
+1. Voting Service: A web front-end for voting, written in Python.
+2. Redis: A simple in-memory database that stores votes.
+3. Worker: A background process that consumes the vote from Redis and stores it in the database, written in .NET Core.
+4. PostgreSQL: A relational database that stores the results.
+5. Result Service: A web front-end that shows the results, written in Node.js.
 
-This solution uses Python, Node.js, .NET, with Redis for messaging and Postgres for storage.
+## Modifications
+### 1. Terraform for Infrastructure Provisioning
 
-Run in this directory to build and run the app:
+Terraform scripts have been added to automate the provisioning of infrastructure on cloud platforms (e.g., AWS, Azure, GCP). The scripts can set up the necessary infrastructure components such as Kubernetes clusters, networking, and storage.
 
-```shell
-docker compose up
+### 2. Helm Chart Integration
+Helm charts have been created to package the application, making it easier to deploy and manage in a Kubernetes environment. The charts handle the setup and configuration of all necessary components, including the Voting service, Redis, Worker, PostgreSQL, and the Result service.
+
+### 3. Jenkins Pipeline
+Jenkins files have been added to automate the CI/CD pipeline. The pipeline automates the process of building Docker images, running tests, and deploying the application to a Kubernetes cluster using the Helm charts.
+
+### 4. Improved Documentation
+The documentation has been enhanced to reflect these changes, providing clear instructions on how to deploy the application using Terraform, Helm, and Jenkins.
+
+## Getting Started
+### Prerequisites
+- `Terraform`: Ensure Terraform is installed for infrastructure provisioning.
+- `Docker`: Docker should be installed and running on your local machine.
+- `Kubernetes`: A running Kubernetes cluster is required (can be provisioned using Terraform).
+- `Helm`: Helm must be installed to deploy the application.
+- `Jenkins`: Jenkins should be set up and configured to run the provided pipeline.
+
+
+### Infrastructure Provisioning with Terraform
+
+ Clone the Repository
+ ```shell
+ git clone https://github.com/asifcopilot/example-voting-app-modded.git
+cd example-voting-app-modded
 ```
 
-The `vote` app will be running at [http://localhost:5000](http://localhost:5000), and the `results` will be at [http://localhost:5001](http://localhost:5001).
-
-Alternately, if you want to run it on a [Docker Swarm](https://docs.docker.com/engine/swarm/), first make sure you have a swarm. If you don't, run:
+1. `Initialize Terraform` :  Navigate to the Terraform directory and initialize Terraform:
 
 ```shell
-docker swarm init
+cd terraform
+terraform init
 ```
-
-Once you have your swarm, in this directory run:
+2. `Plan and Apply`: Change the `var.tf` file according to your requirements. Review the infrastructure changes using the `plan` command, then apply them
 
 ```shell
-docker stack deploy --compose-file docker-stack.yml vote
+terraform plan
+terraform apply
 ```
+This will provision the necessary infrastructure components, such as a Kubernetes cluster and any required networking resources.
+
 
 ## Run the app in Kubernetes
 
@@ -45,7 +75,7 @@ To remove them, run:
 ```shell
 kubectl delete -f k8s-specifications/
 ```
-#### Deploying the Voting App Using Helm on Kubernetes
+#### (New Added) Deploying the Voting App Using Helm on Kubernetes
 
 The k8s-helm folder contains all the Helm charts for the Voting App's services.
 
@@ -58,10 +88,16 @@ To remove the deployment, run:
 ```shell
 helm uninstall vote-helm -n <namespace>
 ```
+This command will deploy the entire application stack into your Kubernetes cluster.
 
+
+### Set Up Jenkins Pipeline
+- Configure your Jenkins server to use the provided Jenkinsfile.
+- The pipeline will automatically build the Docker images, push them to your Docker registry, and deploy the application using Helm.
 ## Architecture
 
-![Architecture diagram](architecture.excalidraw.png)
+
+
 
 * A front-end web app in [Python](/vote) which lets you vote between two options
 * A [Redis](https://hub.docker.com/_/redis/) which collects new votes
