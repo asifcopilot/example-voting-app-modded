@@ -109,14 +109,5 @@ This command will deploy the entire application stack into your Kubernetes clust
 ### Set Up Jenkins Pipeline
 - Configure your Jenkins server to use the provided Jenkinsfile.
 - The pipeline will automatically build the Docker images, push them to your Docker registry, and deploy the application using Helm.
-## Architecture
 
-
-
-
-* A front-end web app in [Python](/vote) which lets you vote between two options
-* A [Redis](https://hub.docker.com/_/redis/) which collects new votes
-* A [.NET](/worker/) worker which consumes votes and stores them in…
-* A [Postgres](https://hub.docker.com/_/postgres/) database backed by a Docker volume
-* A [Node.js](/result) web app which shows the results of the voting in real time
 
