@@ -1,5 +1,5 @@
 # Modded Example Voting App
-This repository is a modified version of the [Votingapp](https://github.com/dockersamples/example-voting-app),a simple distributed application running across multiple Docker containers. The modifications include the addition of Helm charts, Jenkins files, and Terraform scripts to streamline infrastructure provisioning, deployment, and CI/CD processes.
+This repository is a modified version of the [Votingapp](https://github.com/dockersamples/example-voting-app), a simple distributed application running across multiple Docker containers. The modifications include the addition of Helm charts, Jenkins files, and Terraform scripts to streamline infrastructure provisioning, deployment, and CI/CD processes.
 
 ![Architecture diagram](voting-app-img.gif)
 ## Overview
@@ -15,7 +15,22 @@ The Voting App is a sample application that demonstrates the deployment of a mul
 ## Modifications
 ### 1. Terraform for Infrastructure Provisioning
 
-Terraform scripts have been added to automate the provisioning of infrastructure on cloud platforms (e.g., AWS, Azure, GCP). The scripts can set up the necessary infrastructure components such as Kubernetes clusters, networking, and storage.
+Terraform scripts have been added to automate the provisioning of infrastructure on azure cloud platform. The scripts can set up the necessary infrastructure components such as Kubernetes clusters, networking, and storage.
+
+### Infrastructure Components Provisioned by Terraform
+- `Azure Virtual Network`: Creates a virtual network with a subnet, public IP, and a security group configured with the necessary security rules.
+- `Linux Virtual Machine`: Provisions a Linux virtual machine with the following tools pre-installed:
+    - Jenkins
+    - Docker
+    - kubectl
+    - Helm
+    - SonarQube
+    - Trivy
+- `Azure Container Registry (ACR)`: Sets up an Azure Container Registry for storing Docker images.
+- `Azure Kubernetes Service (AKS)`: Provisions an AKS cluster with a single node.
+- `ACR Integration with AKS`: Configures the provisioned ACR to be accessible by the AKS cluster.
+
+
 
 ### 2. Helm Chart Integration
 Helm charts have been created to package the application, making it easier to deploy and manage in a Kubernetes environment. The charts handle the setup and configuration of all necessary components, including the Voting service, Redis, Worker, PostgreSQL, and the Result service.
@@ -105,10 +120,3 @@ This command will deploy the entire application stack into your Kubernetes clust
 * A [Postgres](https://hub.docker.com/_/postgres/) database backed by a Docker volume
 * A [Node.js](/result) web app which shows the results of the voting in real time
 
-## Notes
-
-The voting application only accepts one vote per client browser. It does not register additional votes if a vote has already been submitted from a client.
-
-This isn't an example of a properly architected perfectly designed distributed app... it's just a simple
-example of the various types of pieces and languages you might see (queues, persistent data, etc), and how to
-deal with them in Docker at a basic level.
