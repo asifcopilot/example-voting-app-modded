@@ -1,7 +1,7 @@
 # Modded Example Voting App
 This repository is a modified version of the [Votingapp](https://github.com/dockersamples/example-voting-app),a simple distributed application running across multiple Docker containers. The modifications include the addition of Helm charts, Jenkins files, and Terraform scripts to streamline infrastructure provisioning, deployment, and CI/CD processes.
 
-![Architecture diagram](voting-app-diagram.gif)
+![Architecture diagram](voting-app-img.gif)
 ## Overview
 
 The Voting App is a sample application that demonstrates the deployment of a multi-container application using Docker. The application is composed of the following services:
