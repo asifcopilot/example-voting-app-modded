@@ -90,7 +90,7 @@ To remove them, run:
 ```shell
 kubectl delete -f k8s-specifications/
 ```
-#### `(New Added)` Deploying the Voting App Using Helm on Kubernetes
+#### `(**New Added)` Deploying the Voting App Using Helm on Kubernetes
 
 The k8s-helm folder contains all the Helm charts for the Voting App's services.
 
